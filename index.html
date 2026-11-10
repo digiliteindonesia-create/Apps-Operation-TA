@@ -16,594 +16,553 @@
                     },
                     colors: {
                         brand: {
-                            indigo: '#4f46e5',
-                            emerald: '#10b981',
-                            amber: '#f59e0b',
+                            amber: '#F59E0B',     /* Operations & Field Work */
+                            blue: '#2563EB',      /* Service Assurance, Network & Diagnostic */
+                            red: '#EF4444',       /* Logistics, District & Management */
                         }
-                    },
-                    boxShadow: {
-                        'soft-sm': '0 2px 8px -2px rgba(15, 23, 42, 0.04), 0 1px 4px -1px rgba(15, 23, 42, 0.02)',
-                        'soft-md': '0 12px 24px -6px rgba(15, 23, 42, 0.06), 0 4px 8px -2px rgba(15, 23, 42, 0.03)',
-                        'soft-lg': '0 20px 32px -8px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04)',
                     }
                 }
             }
         }
     </script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts: Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
-
-        /* Smooth Card Hover Transition */
-        .clean-card {
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                        box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                        border-color 0.2s ease, 
-                        background-color 0.2s ease;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
         }
-
-        .clean-card:hover {
-            transform: translateY(-2px);
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+        /* Custom smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom animations */
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col justify-between p-4 sm:p-6 selection:bg-slate-900 selection:text-white dark:selection:bg-slate-100 dark:selection:text-slate-900">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white transition-colors duration-300">
 
-    <!-- Top Action Navigation Bar -->
-    <header class="w-full max-w-4xl mx-auto flex items-center justify-between pt-2 pb-6 px-1">
-        <!-- Dark/Light Theme Toggle -->
-        <button onclick="toggleDarkMode()" aria-label="Toggle Theme" class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white shadow-soft-sm transition active:scale-95">
-            <i id="theme-icon" class="fa-regular fa-moon text-sm"></i>
+    <!-- Top Action Bar (Theme Toggle & Share) -->
+    <div class="w-full max-w-xl mx-auto px-4 pt-6 flex justify-between items-center z-10">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="p-2.5 rounded-full glass-card hover:scale-105 transition shadow-sm text-slate-600 dark:text-slate-300" title="Ubah Tema">
+            <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
         </button>
 
-        <!-- Right Quick Actions (Share Page & QR Code) -->
-        <div class="flex items-center gap-2">
-            <button onclick="copyToClipboard(window.location.href, 'Bagikan Dashboard')" class="h-10 px-3.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 shadow-soft-sm transition active:scale-95">
-                <i class="fa-regular fa-copy"></i>
-                <span id="copy-btn-text">Bagikan Link</span>
+        <!-- Right Quick Actions -->
+        <div class="flex items-center space-x-2">
+            <button onclick="openQRModal()" class="px-3 py-1.5 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-qrcode text-blue-500"></i>
+                <span>QR Code</span>
             </button>
-
-            <button onclick="toggleQRModal()" aria-label="QR Code Modal" class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white shadow-soft-sm transition active:scale-95">
-                <i class="fa-solid fa-qrcode text-sm"></i>
+            <button onclick="sharePage()" class="px-3 py-1.5 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-share-nodes text-emerald-500"></i>
+                <span>Bagikan</span>
             </button>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Bio & Operations Portal Container -->
-    <main class="w-full max-w-4xl mx-auto my-auto flex flex-col items-center">
+    <!-- Main Container -->
+    <main class="w-full max-w-xl mx-auto px-4 py-8 flex-grow">
         
-        <!-- Header Section -->
-        <div class="flex flex-col items-center text-center w-full mb-6">
-            <!-- Icon Avatar -->
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 via-emerald-500 to-amber-500 p-[2px] shadow-soft-md mb-3">
-                <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center text-slate-800 dark:text-slate-100 text-2xl font-bold">
-                    <i class="fa-solid fa-layer-group"></i>
+        <!-- Profile Section -->
+        <div class="text-center mb-8">
+            <div class="relative inline-block mb-4">
+                <div class="w-24 h-24 rounded-full p-1 bg-gradient-to-tr from-amber-500 via-blue-600 to-red-500 shadow-lg animate-pulse-slow">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Avatar" class="w-full h-full object-cover rounded-full border-2 border-white dark:border-slate-900">
                 </div>
+                <!-- Status Dot -->
+                <span class="absolute bottom-1 right-1 w-5 h-5 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full flex items-center justify-center text-[10px] text-white" title="Active & Ready">
+                    <i class="fa-solid fa-check"></i>
+                </span>
             </div>
-
-            <!-- Profile Title -->
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-1.5">
-                Operations Quick Launch
+            
+            <h1 class="text-2xl font-extrabold tracking-tight flex items-center justify-center space-x-2">
+                <span>Operations Portal</span>
+                <span class="text-amber-500" title="Verified Hub"><i class="fa-solid fa-circle-check text-lg"></i></span>
             </h1>
-            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md leading-relaxed">
-                Portal integrasi 13 aplikasi penting operasional, jaringan, & manajemen lapangan.
-            </p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Quick Access & Field Management Tools</p>
         </div>
 
-        <!-- Live Filter / Search Input -->
-        <div class="w-full max-w-lg mb-8 relative">
-            <div class="relative flex items-center">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 text-slate-400 text-sm"></i>
-                <input type="text" id="app-search" oninput="filterApps()" 
-                       placeholder="Cari nama aplikasi (misal: WFM, Insera, KPro, ACS)..." 
-                       class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 shadow-soft-sm transition">
-                <button onclick="clearSearch()" id="clear-search-btn" class="hidden absolute right-3 w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center text-xs">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+        <!-- Real-Time Search Bar -->
+        <div class="relative mb-8">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" id="searchInput" onkeyup="filterLinks()" placeholder="Cari nama aplikasi atau layanan..." 
+                class="w-full pl-11 pr-4 py-3.5 rounded-2xl glass-card text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-sm placeholder:text-slate-400 dark:placeholder:text-slate-500">
+        </div>
+
+        <!-- CATEGORY 1: Operations & Field Work (Amber / Orange) -->
+        <div class="category-section mb-6">
+            <div class="flex items-center space-x-2 mb-3 px-1">
+                <div class="w-2 h-5 bg-amber-500 rounded-full"></div>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Operations & Field Work</h2>
+            </div>
+            <div class="space-y-3" id="cat-operations">
+                
+                <!-- WFM Lensa -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-amber-500/50 transition-all duration-300" data-name="wfm lensa">
+                    <a href="https://flow.telkomakses.co.id/" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">WFM Lensa</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">flow.telkomakses.co.id</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://flow.telkomakses.co.id/')" class="p-2 text-slate-400 hover:text-amber-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-amber-500 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Lensa Rooster -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-amber-500/50 transition-all duration-300" data-name="lensa rooster">
+                    <a href="https://ops.tacc.id/login" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-clipboard-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">Lensa Rooster</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">ops.tacc.id</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://ops.tacc.id/login')" class="p-2 text-slate-400 hover:text-amber-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-amber-500 transition"></i>
+                    </div>
+                </div>
+
+                <!-- OPSTASMR -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-amber-500/50 transition-all duration-300" data-name="opstasmr">
+                    <a href="https://opstasmr.id/admin" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">OPSTASMR</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">opstasmr.id/admin</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://opstasmr.id/admin')" class="p-2 text-slate-400 hover:text-amber-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-amber-500 transition"></i>
+                    </div>
+                </div>
+
+                <!-- ADING -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-amber-500/50 transition-all duration-300" data-name="ading">
+                    <a href="https://ading.web.id/" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">ADING</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">ading.web.id</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://ading.web.id/')" class="p-2 text-slate-400 hover:text-amber-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-amber-500 transition"></i>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- App Collections Section -->
-        <div id="apps-container" class="w-full space-y-8">
-
-            <!-- Category 1: Operations & Field Work (Indigo Theme) -->
-            <section class="app-category">
-                <div class="flex items-center justify-between mb-3.5 px-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 shadow-[0_0_8px_rgba(79,70,229,0.6)]"></span>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-900 dark:text-indigo-400">
-                            Operations & Field Work
-                        </h2>
+        <!-- CATEGORY 2: Service Assurance, Network & Diagnostic (Royal Blue) -->
+        <div class="category-section mb-6">
+            <div class="flex items-center space-x-2 mb-3 px-1">
+                <div class="w-2 h-5 bg-blue-600 rounded-full"></div>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Service Assurance, Network & Diagnostic</h2>
+            </div>
+            <div class="space-y-3" id="cat-assurance">
+                
+                <!-- Insera -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="insera">
+                    <a href="https://insera-sso.telkom.co.id/jw/web/login" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Insera</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">insera-sso.telkom.co.id</p>
+                        </div>
                     </div>
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-900/60">
-                        4 Apps
-                    </span>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://insera-sso.telkom.co.id/jw/web/login')" class="p-2 text-slate-400 hover:text-blue-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-blue-500 transition"></i>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                    
-                    <!-- 1. WFM Lensa -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-indigo-300 dark:hover:border-indigo-800 flex items-center justify-between border-l-4 border-l-indigo-600" data-name="wfm lensa flow telkom akses field work">
-                        <a href="https://flow.telkomakses.co.id/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-diagram-project text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">WFM Lensa</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">flow.telkomakses.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://flow.telkomakses.co.id/', 'WFM Lensa')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://flow.telkomakses.co.id/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
+                <!-- TacticalPro -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="tacticalpro">
+                    <a href="https://tacticalpro.co.id/auth/login" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">TacticalPro</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">tacticalpro.co.id</p>
                         </div>
                     </div>
-
-                    <!-- 2. Lensa Rooster -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-indigo-300 dark:hover:border-indigo-800 flex items-center justify-between border-l-4 border-l-indigo-600" data-name="lensa rooster ops tacc shift jadwal">
-                        <a href="https://ops.tacc.id/login" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-calendar-days text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">Lensa Rooster</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">ops.tacc.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://ops.tacc.id/login', 'Lensa Rooster')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://ops.tacc.id/login" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://tacticalpro.co.id/auth/login')" class="p-2 text-slate-400 hover:text-blue-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-blue-500 transition"></i>
                     </div>
-
-                    <!-- 3. OPSTASMR -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-indigo-300 dark:hover:border-indigo-800 flex items-center justify-between border-l-4 border-l-indigo-600" data-name="opstasmr ops tasmr admin">
-                        <a href="https://opstasmr.id/admin" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-sliders text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">OPSTASMR</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">opstasmr.id/admin</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://opstasmr.id/admin', 'OPSTASMR')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://opstasmr.id/admin" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 4. ADING -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-indigo-300 dark:hover:border-indigo-800 flex items-center justify-between border-l-4 border-l-indigo-600" data-name="ading web id data online tools">
-                        <a href="https://ading.web.id/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:bg-indigo-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-globe text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">ADING</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">ading.web.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://ading.web.id/', 'ADING')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://ading.web.id/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- Category 2: Service Assurance, Network & Diagnostic (Emerald Theme) -->
-            <section class="app-category">
-                <div class="flex items-center justify-between mb-3.5 px-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                            Service Assurance, Network & Diagnostic
-                        </h2>
-                    </div>
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/60">
-                        6 Apps
-                    </span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                    
-                    <!-- 5. Insera -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-emerald-300 dark:hover:border-emerald-800 flex items-center justify-between border-l-4 border-l-emerald-500" data-name="insera sso telkom ticket incident">
-                        <a href="https://insera-sso.telkom.co.id/jw/web/login" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-ticket text-base"></i>
+                <!-- Dalapa (Global Protect) -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="dalapa global protect">
+                    <a href="http://lapa-reg.telkom.co.id" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-sm font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Dalapa</h3>
+                                <span class="px-1.5 py-0.5 text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded border border-amber-500/20">VPN</span>
                             </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">Insera SSO</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">insera-sso.telkom.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://insera-sso.telkom.co.id/jw/web/login', 'Insera')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://insera-sso.telkom.co.id/jw/web/login" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">lapa-reg.telkom.co.id</p>
                         </div>
                     </div>
-
-                    <!-- 6. TacticalPro -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-emerald-300 dark:hover:border-emerald-800 flex items-center justify-between border-l-4 border-l-emerald-500" data-name="tacticalpro tactical pro auth login">
-                        <a href="https://tacticalpro.co.id/auth/login" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-crosshairs text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">TacticalPro</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">tacticalpro.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://tacticalpro.co.id/auth/login', 'TacticalPro')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://tacticalpro.co.id/auth/login" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'lapa-reg.telkom.co.id')" class="p-2 text-slate-400 hover:text-blue-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-blue-500 transition"></i>
                     </div>
-
-                    <!-- 7. Dalapa (Global Protect) -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-emerald-300 dark:hover:border-emerald-800 flex items-center justify-between border-l-4 border-l-emerald-500" data-name="dalapa global protect lapa reg telkom vpn">
-                        <a href="https://lapa-reg.telkom.co.id" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-shield-cat text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="font-semibold text-sm text-slate-900 dark:text-white truncate">Dalapa</span>
-                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex-shrink-0">Global Protect</span>
-                                </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">lapa-reg.telkom.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://lapa-reg.telkom.co.id', 'Dalapa')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://lapa-reg.telkom.co.id" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 8. ACS (Global Protect) -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-emerald-300 dark:hover:border-emerald-800 flex items-center justify-between border-l-4 border-l-emerald-500" data-name="acs ibooster otp global protect vpn">
-                        <a href="https://acs-ibooster.telkom.co.id/otp" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-key text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="font-semibold text-sm text-slate-900 dark:text-white truncate">ACS OTP</span>
-                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex-shrink-0">Global Protect</span>
-                                </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">acs-ibooster.telkom.co.id/otp</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://acs-ibooster.telkom.co.id/otp', 'ACS')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://acs-ibooster.telkom.co.id/otp" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 9. Ibooster Ukur Massal (Global Protect) -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-emerald-300 dark:hover:border-emerald-800 flex items-center justify-between border-l-4 border-l-emerald-500" data-name="ibooster ukur massal acs global protect vpn">
-                        <a href="https://acs-ibooster.telkom.co.id/login" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-chart-line text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="font-semibold text-sm text-slate-900 dark:text-white truncate">Ibooster Ukur Massal</span>
-                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex-shrink-0">Global Protect</span>
-                                </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">acs-ibooster.telkom.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://acs-ibooster.telkom.co.id/login', 'Ibooster')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://acs-ibooster.telkom.co.id/login" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 10. Proman -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-emerald-100 dark:border-emerald-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-emerald-300 dark:hover:border-emerald-800 flex items-center justify-between border-l-4 border-l-emerald-500" data-name="proman global protect vpn assurance telkom pro-man project manager">
-                        <a href="https://assurance.telkom.co.id/pro-man/index.php/dashboard/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-bars-progress text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="font-semibold text-sm text-slate-900 dark:text-white truncate">Proman</span>
-                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex-shrink-0">Global Protect</span>
-                                </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">assurance.telkom.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://assurance.telkom.co.id/pro-man/index.php/dashboard/', 'Proman')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://assurance.telkom.co.id/pro-man/index.php/dashboard/" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- Category 3: Logistics, District & Management Tools (Amber/Orange Theme) -->
-            <section class="app-category">
-                <div class="flex items-center justify-between mb-3.5 px-1">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.6)]"></span>
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400">
-                            Logistics, District & Management Tools
-                        </h2>
-                    </div>
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-900/60">
-                        3 Apps
-                    </span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-
-                    <!-- 11. Lensa Inventory -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-amber-100 dark:border-amber-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-amber-300 dark:hover:border-amber-800 flex items-center justify-between border-l-4 border-l-amber-500" data-name="lensa inventory gudang peralatan material telkom akses">
-                        <a href="https://lensa-inventory.telkomakses.co.id/login" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-warehouse text-base"></i>
+                <!-- Acs (Global Protect) -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="acs global protect">
+                    <a href="https://acs-ibooster.telkom.co.id/otp" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-sm font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Acs</h3>
+                                <span class="px-1.5 py-0.5 text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded border border-amber-500/20">VPN</span>
                             </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">Lensa Inventory</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">lensa-inventory.telkomakses.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://lensa-inventory.telkomakses.co.id/login', 'Lensa Inventory')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://lensa-inventory.telkomakses.co.id/login" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">acs-ibooster.telkom.co.id</p>
                         </div>
                     </div>
-
-                    <!-- 12. Avatar -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-amber-100 dark:border-amber-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-amber-300 dark:hover:border-amber-800 flex items-center justify-between border-l-4 border-l-amber-500" data-name="avatar district dashboard tif4">
-                        <a href="https://avatar.tif4.com/login?redirect=%2Fdistrict%2Fdashboard" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-users-gear text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <span class="font-semibold text-sm text-slate-900 dark:text-white block truncate">Avatar</span>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">avatar.tif4.com</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://avatar.tif4.com/login?redirect=%2Fdistrict%2Fdashboard', 'Avatar')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://avatar.tif4.com/login?redirect=%2Fdistrict%2Fdashboard" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://acs-ibooster.telkom.co.id/otp')" class="p-2 text-slate-400 hover:text-blue-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-blue-500 transition"></i>
                     </div>
-
-                    <!-- 13. KPro (Global Protect) -->
-                    <div class="app-card clean-card group relative p-4 rounded-[20px] bg-white dark:bg-slate-900 border border-amber-100 dark:border-amber-950/80 shadow-soft-sm hover:shadow-soft-md hover:border-amber-300 dark:hover:border-amber-800 flex items-center justify-between border-l-4 border-l-amber-500" data-name="kpro global protect telkom vpn public login">
-                        <a href="https://kpro.telkom.co.id/kpro/public/login" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 flex-1 min-w-0 pr-2">
-                            <div class="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-white transition-colors flex-shrink-0">
-                                <i class="fa-solid fa-chart-pie text-base"></i>
-                            </div>
-                            <div class="text-left truncate">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="font-semibold text-sm text-slate-900 dark:text-white truncate">KPro</span>
-                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex-shrink-0">Global Protect</span>
-                                </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">kpro.telkom.co.id</p>
-                            </div>
-                        </a>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('https://kpro.telkom.co.id/kpro/public/login', 'KPro')" title="Salin URL" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 flex items-center justify-center transition">
-                                <i class="fa-regular fa-copy text-xs"></i>
-                            </button>
-                            <a href="https://kpro.telkom.co.id/kpro/public/login" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-slate-400 group-hover:text-amber-600 dark:group-hover:text-amber-400 flex items-center justify-center transition">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-
                 </div>
-            </section>
 
+                <!-- Ibooster Ukur Massal (Global Protect) -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="ibooster ukur massal global protect">
+                    <a href="https://acs-ibooster.telkom.co.id/login" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-sm font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Ibooster Ukur Massal</h3>
+                                <span class="px-1.5 py-0.5 text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded border border-amber-500/20">VPN</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">acs-ibooster.telkom.co.id/login</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://acs-ibooster.telkom.co.id/login')" class="p-2 text-slate-400 hover:text-blue-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-blue-500 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Proman (Global Protect) -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="proman global protect">
+                    <a href="https://assurance.telkom.co.id/pro-man/index.php/dashboard/" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-sm font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Proman</h3>
+                                <span class="px-1.5 py-0.5 text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded border border-amber-500/20">VPN</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">assurance.telkom.co.id/pro-man</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://assurance.telkom.co.id/pro-man/index.php/dashboard/')" class="p-2 text-slate-400 hover:text-blue-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-blue-500 transition"></i>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        <!-- No Results Fallback -->
-        <div id="no-results" class="hidden text-center py-12">
-            <i class="fa-solid fa-folder-open text-3xl text-slate-300 dark:text-slate-700 mb-3"></i>
-            <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Aplikasi tidak ditemukan</p>
-            <p class="text-xs text-slate-400 dark:text-slate-600 mt-1">Coba kata kunci pencarian yang lain.</p>
+        <!-- CATEGORY 3: Logistics, District & Management Tools (Crimson Red) -->
+        <div class="category-section mb-6">
+            <div class="flex items-center space-x-2 mb-3 px-1">
+                <div class="w-2 h-5 bg-red-500 rounded-full"></div>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400">Logistics, District & Management Tools</h2>
+            </div>
+            <div class="space-y-3" id="cat-logistics">
+                
+                <!-- Lensa Inventory -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-red-500/50 transition-all duration-300" data-name="lensa inventory">
+                    <a href="https://lensa-inventory.telkomakses.co.id/login" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition">Lensa Inventory</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">lensa-inventory.telkomakses.co.id</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://lensa-inventory.telkomakses.co.id/login')" class="p-2 text-slate-400 hover:text-red-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-red-500 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Avatar -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-red-500/50 transition-all duration-300" data-name="avatar">
+                    <a href="https://avatar.tif4.com/login?redirect=%2Fdistrict%2Fdashboard" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-id-badge"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition">Avatar</h3>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">avatar.tif4.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://avatar.tif4.com/login?redirect=%2Fdistrict%2Fdashboard')" class="p-2 text-slate-400 hover:text-red-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-red-500 transition"></i>
+                    </div>
+                </div>
+
+                <!-- KPro (Global Protect) -->
+                <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-red-500/50 transition-all duration-300" data-name="kpro global protect">
+                    <a href="https://kpro.telkom.co.id/kpro/public/login" target="_blank" class="absolute inset-0 z-0 rounded-2xl"></a>
+                    <div class="flex items-center space-x-3.5 z-10 pointer-events-none">
+                        <div class="w-10 h-10 rounded-xl bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center font-bold text-base transition group-hover:scale-110">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-sm font-bold group-hover:text-red-600 dark:group-hover:text-red-400 transition">KPro</h3>
+                                <span class="px-1.5 py-0.5 text-[9px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded border border-amber-500/20">VPN</span>
+                            </div>
+                            <p class="text-xs text-slate-400 dark:text-slate-500">kpro.telkom.co.id</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 z-10">
+                        <button onclick="copyLink(event, 'https://kpro.telkom.co.id/kpro/public/login')" class="p-2 text-slate-400 hover:text-red-500 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800" title="Salin Link">
+                            <i class="fa-regular fa-copy text-sm"></i>
+                        </button>
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400 group-hover:translate-x-1 group-hover:text-red-500 transition"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Empty State for Search -->
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fa-solid fa-triangle-exclamation text-3xl text-slate-400 mb-3"></i>
+            <p class="text-sm font-semibold text-slate-500">Aplikasi tidak ditemukan.</p>
         </div>
 
     </main>
 
-    <!-- Footer Copyright -->
-    <footer class="w-full max-w-4xl mx-auto text-center pt-12 pb-4">
-        <p class="text-xs text-slate-400 dark:text-slate-600 font-medium">
-            © Operations Quick Launch. Designed for Speed & Efficiency.
-        </p>
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 text-xs text-slate-400 dark:text-slate-600 font-medium">
+        <p>&copy; 2026 Operations Portal &bull; All Rights Reserved</p>
     </footer>
 
-    <!-- QR Code Modal Dialog -->
-    <div id="qr-modal" class="fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/70 backdrop-blur-md flex items-center justify-center p-4 hidden transition-opacity duration-300">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 w-full max-w-xs text-center shadow-soft-lg relative">
-            <!-- Close Button -->
-            <button onclick="toggleQRModal()" aria-label="Close QR Modal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition">
-                <i class="fa-solid fa-xmark text-sm"></i>
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center z-50 px-4">
+        <div class="glass-card max-w-sm w-full p-6 rounded-3xl text-center relative shadow-2xl animate-in fade-in zoom-in duration-200">
+            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-            
-            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Pindai QR Code Portal</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-5">Scan untuk membuka portal ini di smartphone/tablet</p>
-            
-            <!-- Dynamic QR Code Image -->
-            <div class="bg-white p-3 rounded-2xl inline-block border border-slate-100 shadow-inner mb-5">
-                <img id="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://example.com" 
-                     alt="QR Code" 
-                     class="w-44 h-44 rounded-lg">
+            <h3 class="text-base font-bold mb-1">QR Code Portal</h3>
+            <p class="text-xs text-slate-500 mb-4">Scan untuk membuka portal di perangkat mobile</p>
+            <div class="bg-white p-4 rounded-2xl inline-block shadow-inner mb-4">
+                <!-- Dynamic QR using chart API -->
+                <img id="qrImage" src="" alt="QR Code" class="w-48 h-48 mx-auto">
             </div>
-
-            <button onclick="toggleQRModal()" class="w-full py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl text-xs font-semibold shadow-soft-md hover:bg-slate-800 dark:hover:bg-slate-100 transition">
-                Tutup Window
-            </button>
+            <p class="text-[11px] text-slate-400 truncate px-4" id="currentUrlText"></p>
         </div>
     </div>
 
-    <!-- Toast Notification for Copying Link -->
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2.5 rounded-full shadow-soft-lg flex items-center gap-2.5 text-xs font-medium opacity-0 translate-y-4 pointer-events-none transition-all duration-300">
-        <i class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600"></i>
-        <span id="toast-message">Link disalin ke clipboard!</span>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold px-4 py-2.5 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMessage">Link berhasil disalin!</span>
     </div>
 
-    <!-- JavaScript Interactive Handlers -->
+    <!-- JavaScript Actions -->
     <script>
-        // Dark Mode Toggle Logic
-        function toggleDarkMode() {
+        // Theme Toggler
+        function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'light');
-            } else {
+            if (html.classList.contains('light')) {
+                html.classList.remove('light');
                 html.classList.add('dark');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+                icon.className = 'fa-solid fa-sun text-lg';
                 localStorage.setItem('theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.className = 'fa-solid fa-moon text-lg';
+                localStorage.setItem('theme', 'light');
             }
         }
 
-        // Initialize Theme Preference
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.remove('light');
             document.documentElement.classList.add('dark');
-            document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            document.getElementById('theme-icon').className = 'fa-solid fa-sun text-lg';
         }
 
-        // Copy Link / URL to Clipboard Functionality
-        function copyToClipboard(url, name) {
-            const targetUrl = url || window.location.href;
-            
-            const dummy = document.createElement('input');
-            document.body.appendChild(dummy);
-            dummy.value = targetUrl;
-            dummy.select();
-            document.execCommand('copy');
-            document.body.removeChild(dummy);
+        // Copy Link Function with Toast
+        function copyLink(e, url) {
+            e.preventDefault();
+            e.stopPropagation();
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('Link berhasil disalin ke clipboard!');
+            }).catch(err => {
+                showToast('Gagal menyalin link.');
+            });
+        }
 
-            const toastMessage = document.getElementById('toast-message');
-            toastMessage.textContent = name ? `URL ${name} disalin!` : 'Link portal disalin!';
-
-            // Toast Alert
+        function showToast(msg) {
             const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0', 'translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
             setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'translate-y-4');
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
             }, 2500);
         }
 
-        // Dynamic Live Search Filter
-        function filterApps() {
-            const query = document.getElementById('app-search').value.toLowerCase().trim();
-            const clearBtn = document.getElementById('clear-search-btn');
-            const cards = document.querySelectorAll('.app-card');
-            const categories = document.querySelectorAll('.app-category');
-            const noResults = document.getElementById('no-results');
-            
-            clearBtn.classList.toggle('hidden', query === '');
-
-            let totalVisible = 0;
+        // Real-time Search Filter
+        function filterLinks() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.link-card');
+            let categories = document.querySelectorAll('.category-section');
+            let foundCount = 0;
 
             cards.forEach(card => {
-                const nameData = card.getAttribute('data-name');
-                if (nameData.includes(query)) {
-                    card.classList.remove('hidden');
-                    totalVisible++;
+                let name = card.getAttribute('data-name');
+                if (name.includes(input)) {
+                    card.style.display = 'flex';
+                    foundCount++;
                 } else {
-                    card.classList.add('hidden');
+                    card.style.display = 'none';
                 }
             });
 
-            // Hide empty category titles when filtering
+            // Hide/Show category containers if empty
             categories.forEach(cat => {
-                const visibleCardsInCat = cat.querySelectorAll('.app-card:not(.hidden)');
-                cat.classList.toggle('hidden', visibleCardsInCat.length === 0);
+                let visibleCardsInCat = cat.querySelectorAll('.link-card[style*="display: flex"], .link-card:not([style*="display: none"])');
+                if (visibleCardsInCat.length === 0) {
+                    cat.style.display = 'none';
+                } else {
+                    cat.style.display = 'block';
+                }
             });
 
-            noResults.classList.toggle('hidden', totalVisible > 0);
+            let noResults = document.getElementById('noResults');
+            if (foundCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
         }
 
-        function clearSearch() {
-            const searchInput = document.getElementById('app-search');
-            searchInput.value = '';
-            filterApps();
-            searchInput.focus();
+        // QR Modal
+        function openQRModal() {
+            const currentUrl = window.location.href;
+            document.getElementById('currentUrlText').innerText = currentUrl;
+            document.getElementById('qrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}`;
+            document.getElementById('qrModal').classList.remove('hidden');
+            document.getElementById('qrModal').classList.add('flex');
         }
 
-        // Toggle QR Code Modal
-        function toggleQRModal() {
-            const modal = document.getElementById('qr-modal');
-            const qrImg = document.getElementById('qr-img');
-            
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(window.location.href)}`;
-            modal.classList.toggle('hidden');
+        function closeQRModal() {
+            document.getElementById('qrModal').classList.remove('flex');
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        // Share Page
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Operations Quick Launch Portal',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                copyLink(event, window.location.href);
+                showToast('Link portal berhasil disalin!');
+            }
         }
     </script>
 </body>

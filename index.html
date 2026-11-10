@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations Gateway - Telkom Akses</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.75; transform: scale(1.03); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between items-center p-4 selection:bg-blue-500 selection:text-white transition-colors duration-300">
+
+    <!-- Top Theme Toggle -->
+    <div class="w-full max-w-md flex justify-end pt-4">
+        <button onclick="toggleTheme()" class="p-2.5 rounded-full glass-card hover:scale-105 transition shadow-sm text-slate-600 dark:text-slate-300" title="Ubah Tema">
+            <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-md my-auto text-center px-2 py-6">
+        
+        <!-- Profile / Logo Avatar -->
+        <div class="relative inline-block mb-6">
+            <div class="w-28 h-28 rounded-3xl p-1.5 bg-gradient-to-tr from-blue-600 via-indigo-500 to-emerald-500 shadow-xl animate-pulse-slow">
+                <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[20px] flex items-center justify-center text-blue-600 dark:text-blue-400 text-4xl">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+            </div>
+            <!-- Status Badge Online -->
+            <span class="absolute -bottom-1 -right-1 px-2.5 py-1 bg-emerald-500 text-white text-[10px] font-bold rounded-full border-2 border-white dark:border-slate-900 shadow-md flex items-center space-x-1">
+                <span class="w-1.5 h-1.5 bg-white rounded-full animate-ping"></span>
+                <span>SYSTEM ONLINE</span>
+            </span>
+        </div>
+
+        <!-- Title & Description -->
+        <h1 class="text-2xl font-extrabold tracking-tight mb-2">Operations Gateway</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-8 font-medium px-4">
+            Pusat akses cepat navigasi sistem, aplikasi lapangan, & portal resmi Telkom Akses.
+        </p>
+
+        <!-- Navigation Buttons -->
+        <div class="space-y-4">
+            
+            <!-- Tombol 1: All Aplikasi (Menuju ke halaman apps.html) -->
+            <a href="apps.html" class="group relative flex items-center justify-between p-4 rounded-2xl glass-card hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 text-left">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl transition group-hover:scale-110">
+                        <i class="fa-solid fa-grid-2"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">All Aplikasi</h2>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">Daftar lengkap 13 aplikasi operasional & assurance</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right text-slate-400 group-hover:translate-x-1 group-hover:text-blue-600 transition"></i>
+            </a>
+
+            <!-- Tombol 2: Portal Telkom Akses (External Link) -->
+            <a href="https://apps.telkomakses.co.id/portal/login.php" target="_blank" class="group relative flex items-center justify-between p-4 rounded-2xl glass-card hover:border-emerald-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 text-left">[cite: 6]
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl transition group-hover:scale-110">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">Portal Telkom Akses</h2>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">Login official apps.telkomakses.co.id</p>[cite: 6]
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600 transition"></i>
+            </a>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-6 text-xs text-slate-400 dark:text-slate-600 font-medium">
+        <p>&copy; 2026 Operations Portal &bull; Telkom Akses</p>
+    </footer>
+
+    <!-- Script Theme Toggle -->
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('light')) {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                icon.className = 'fa-solid fa-sun text-lg';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.className = 'fa-solid fa-moon text-lg';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-icon').className = 'fa-solid fa-sun text-lg';
+        }
+    </script>
+</body>
+</html>

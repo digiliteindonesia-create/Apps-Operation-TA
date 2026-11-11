@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operations Quick Launch Portal - All Apps</title>
+    <title>All Applications - Operations Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,13 +13,6 @@
                 extend: {
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            amber: '#F59E0B',     /* Operations & Field Work */
-                            blue: '#2563EB',      /* Service Assurance, Network & Diagnostic */
-                            red: '#EF4444',       /* Logistics, District & Management */
-                        }
                     }
                 }
             }
@@ -48,21 +41,14 @@
         html {
             scroll-behavior: smooth;
         }
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
-        }
-        .animate-pulse-slow {
-            animation: pulse-slow 3s infinite ease-in-out;
-        }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white transition-colors duration-300">
 
-    <!-- Top Action Bar (Back to Gateway, Theme Toggle & Share) -->
-    <div class="w-full max-w-xl mx-auto px-4 pt-6 flex justify-between items-center z-10">
+    <!-- Top Action Bar -->
+    <div class="w-full max-w-4xl mx-auto px-4 pt-6 flex justify-between items-center z-10">
         <!-- Back to Gateway -->
-        <a href="index.html" class="px-3 py-1.5 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
+        <a href="index.html" class="px-3.5 py-2 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
             <i class="fa-solid fa-arrow-left text-blue-500"></i>
             <span>Gateway</span>
         </a>
@@ -72,19 +58,19 @@
             <button onclick="toggleTheme()" class="p-2.5 rounded-full glass-card hover:scale-105 transition shadow-sm text-slate-600 dark:text-slate-300" title="Ubah Tema">
                 <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
             </button>
-            <button onclick="openQRModal()" class="px-3 py-1.5 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
+            <button onclick="openQRModal()" class="px-3.5 py-2 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
                 <i class="fa-solid fa-qrcode text-blue-500"></i>
                 <span>QR</span>
             </button>
-            <button onclick="sharePage()" class="px-3 py-1.5 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
+            <button onclick="sharePage()" class="px-3.5 py-2 text-xs font-semibold rounded-full glass-card hover:scale-105 transition shadow-sm flex items-center space-x-1.5 text-slate-700 dark:text-slate-200">
                 <i class="fa-solid fa-share-nodes text-emerald-500"></i>
                 <span>Bagikan</span>
             </button>
         </div>
     </div>
 
-    <!-- Main Container -->
-    <main class="w-full max-w-xl mx-auto px-4 py-8 flex-grow">
+    <!-- Main Container (Lebar max-w-4xl untuk 2 Kolom) -->
+    <main class="w-full max-w-4xl mx-auto px-4 py-8 flex-grow">
         
         <!-- Header Info -->
         <div class="text-center mb-8">
@@ -96,7 +82,7 @@
         </div>
 
         <!-- Real-Time Search Bar -->
-        <div class="relative mb-8">
+        <div class="relative mb-8 max-w-xl mx-auto">
             <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </span>
@@ -105,15 +91,16 @@
         </div>
 
         <!-- CATEGORY 1: Operations & Field Work (Amber / Orange) -->
-        <div class="category-section mb-6">
-            <div class="flex items-center justify-between mb-3 px-1">
+        <div class="category-section mb-8">
+            <div class="flex items-center justify-between mb-4 px-1">
                 <div class="flex items-center space-x-2">
                     <div class="w-2 h-5 bg-amber-500 rounded-full"></div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Operations & Field Work</h2>
                 </div>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400">5 Apps</span>
             </div>
-            <div class="space-y-3" id="cat-operations">
+            <!-- Grid 2 Kolom -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="cat-operations">
                 
                 <!-- WFM Lensa -->
                 <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-amber-500/50 transition-all duration-300" data-name="wfm lensa">
@@ -219,15 +206,16 @@
         </div>
 
         <!-- CATEGORY 2: Service Assurance, Network & Diagnostic (Royal Blue) -->
-        <div class="category-section mb-6">
-            <div class="flex items-center justify-between mb-3 px-1">
+        <div class="category-section mb-8">
+            <div class="flex items-center justify-between mb-4 px-1">
                 <div class="flex items-center space-x-2">
                     <div class="w-2 h-5 bg-blue-600 rounded-full"></div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Service Assurance, Network & Diagnostic</h2>
                 </div>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-600/10 text-blue-600 dark:text-blue-400">9 Apps</span>
             </div>
-            <div class="space-y-3" id="cat-assurance">
+            <!-- Grid 2 Kolom -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="cat-assurance">
                 
                 <!-- Insera -->
                 <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-blue-500/50 transition-all duration-300" data-name="insera">
@@ -431,15 +419,16 @@
         </div>
 
         <!-- CATEGORY 3: Logistics, District & Management Tools (Crimson Red) -->
-        <div class="category-section mb-6">
-            <div class="flex items-center justify-between mb-3 px-1">
+        <div class="category-section mb-8">
+            <div class="flex items-center justify-between mb-4 px-1">
                 <div class="flex items-center space-x-2">
                     <div class="w-2 h-5 bg-red-500 rounded-full"></div>
                     <h2 class="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400">Logistics, District & Management Tools</h2>
                 </div>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500/10 text-red-600 dark:text-red-400">3 Apps</span>
             </div>
-            <div class="space-y-3" id="cat-logistics">
+            <!-- Grid 2 Kolom -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="cat-logistics">
                 
                 <!-- Lensa Inventory -->
                 <div class="link-card group relative flex items-center justify-between p-3.5 rounded-2xl glass-card hover:shadow-md hover:border-red-500/50 transition-all duration-300" data-name="lensa inventory">
